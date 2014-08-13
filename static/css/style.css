@@ -1375,7 +1375,7 @@ article .entry-content video.right {
 			.container .left-col {
 			    width: 23%;
 			    position: fixed;
-			    opacity: 0.3;
+			    opacity: 0.7;
 			    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
 			    filter: alpha(opacity=30);
 			    -webkit-transition: all 0.2s ease-in;
@@ -1391,6 +1391,26 @@ article .entry-content video.right {
 			}
 			.container .left-col .intrude-less {
 			    width: 80%;
+			}
+			.container .left-col .intrude-less .left_body {
+			    width: 100%;
+			    padding: 0% 0% 0% 15%;
+			    height: 300px;
+			    overflow-y: auto;
+			}
+			.container .left-col .intrude-less .left_body input {
+			    width: 100%;
+			    font-weight: bold;
+			    color: #4183c5;
+			    text-shadow: 0 1px #eee;
+			}
+			.container .left-col .intrude-less .left_body a {
+			    font-weight: bold;
+			    color: #efefef;
+			}
+			.container .left-col .intrude-less .left_body a:hover {
+			    font-weight: bold;
+			    color: #4183c5;
 			}
 			.container .left-col #header {
 			    width: 100%;

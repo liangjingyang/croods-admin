@@ -21,33 +21,73 @@ left_title() ->
 
 get_menu_data() ->
     [
-     ["button1", {data,1}],
-     ["button2", {data,2}],
-     ["button3", {data,3}],
-     ["button4", {data,4}]
-    ].
+	%[text, data, id],
+	["玩家管理", {data,1}, "id1"],
+	["用户管理", {data,2}, "id2"],
+	["权限管理", {data,3}, "id3"],
+	["服务器管理", {data,4}, "id4"],
+	["button5", {data,5}, "id5"],
+	["button6", {data,6}, "id6"],
+	["button7", {data,7}, "id7"],
+	["button8", {data,8}, "id8"]
+	].
 
 get_menu_map() ->
     [
-     b1@text,
-     b1@postback
-    ].
+	menuButton@text,
+	menuButton@postback,
+	menuButton@id
+	].
+get_second_menu_data("id1") ->
+    [
+	["玩家详情", "/"],
+	["发邮件", "/"]
+	];
+get_second_menu_data(_) ->
+    [
+	["测试", "/"]
+	].
 
+get_second_menu_map() ->
+    [
+	link@text,
+	link@url
+	].
+
+get_second_menu(Id) ->
+    Data = get_second_menu_data(Id),
+    Map = get_second_menu_map(),
+    #table { class = tiny, rows = [
+	    #bind { 
+		id = tableBinding, 
+		data = Data, 
+		map = Map, 
+		%transform = fun alternate_color/2, 
+		body = #tablerow { 
+		    id = top,
+		    cells = [
+			#tablecell { id = titleLabel },
+			#tablecell { id = authorLabel },
+			#tablecell { id = descriptionLabel },
+			#tablecell { body = #link { id = link } }
+			]}}
+	    ]}.
+    
+%%% ALTERNATE BACKGROUND COLORS %%%
+alternate_color(DataRow, Acc) when Acc == []; Acc==odd ->
+        {DataRow, even, {top@style, "background-color: #eee; width: 100%"}};
+
+alternate_color(DataRow, Acc) when Acc == even ->
+        {DataRow, odd, {top@style, "background-color: #ddd;"}}.
 
 left_body() ->
     Data = get_menu_data(),
     Map = get_menu_map(),
     [
-     #flash{},
-     #p{},
-     #button { text="Show Flash Message", postback=menu1 },
-     #p{},
-     #button { text="Show Flash Message2", postback=menu2 },
-     #bind{id = aaa, data = Data, map = Map, body = [
-						     #hr{},
-						     #button{id = b1}
-						    ]}
-    ].
+	#bind{id = aaa, data = Data, map = Map, body = [
+		#button{id = menuButton}
+		]}
+	].
 
 right() ->
     #container_12 { body=[
@@ -79,11 +119,14 @@ event(click) ->
 			  body="You clicked the button!", 
 			  actions=#effect { effect=highlight }
 			 });
-event(menu1) ->
-    wf:flash("1", "hahaha");
-event(menu2) ->
-    wf:flash("2", "hahaha");
 event({data, Data}) ->
-    Message = "Clicked On Data: " ++ wf:to_list(Data),
-    wf:wire(#alert { text=Message }),
+    Id = "id" ++ wf:to_list(Data),
+    wf:remove(secondMenu),
+    wf:insert_after(Id, #panel{
+	    id = secondMenu,
+	    body = get_second_menu(Id)
+	    }),
+    ok;
+event(_) ->
     ok.
+
