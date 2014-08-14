@@ -5,7 +5,7 @@
 
 main() -> #template { file="./site/templates/bare.html" }.
 
-title() -> "Welcome to Nitrogen".
+title() -> "Croods-Admin".
 
 left_title() ->
     [
@@ -40,7 +40,7 @@ get_menu_map() ->
 	].
 get_second_menu_data("id1") ->
     [
-	["玩家详情", "/"],
+	["玩家详情", player_info],
 	["发邮件", "/"]
 	];
 get_second_menu_data(_) ->
@@ -51,7 +51,7 @@ get_second_menu_data(_) ->
 get_second_menu_map() ->
     [
 	link@text,
-	link@url
+	link@postback
 	].
 
 get_second_menu(Id) ->
@@ -69,7 +69,7 @@ get_second_menu(Id) ->
 			#tablecell { id = titleLabel },
 			#tablecell { id = authorLabel },
 			#tablecell { id = descriptionLabel },
-			#tablecell { body = #link { id = link } }
+			#tablecell { body = #link { id = link, url = "" } }
 			]}}
 	    ]}.
     
@@ -90,7 +90,7 @@ left_body() ->
 	].
 
 right() ->
-    #panel { body = inner_body() }.
+    #panel { id = right_body, body = inner_body() }.
 
 inner_body() -> 
     [
@@ -125,6 +125,12 @@ event({data, Data}) ->
 	    body = get_second_menu(Id)
 	    }),
     ok;
+event(player_info) ->
+    player_info(),
+    ok;
 event(_) ->
     ok.
+
+player_info() ->
+    wf:replace(right_body, #panel{id = right_body, body = ["hahahahahhah"]}).
 
