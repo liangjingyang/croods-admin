@@ -90,9 +90,7 @@ left_body() ->
 	].
 
 right() ->
-    #container_12 { body=[
-			  #grid_8 { alpha=true, prefix=2, suffix=2, omega=true, body=inner_body() }
-			 ]}.
+    #panel { body = inner_body() }.
 
 inner_body() -> 
     [

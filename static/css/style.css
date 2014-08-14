@@ -1274,11 +1274,15 @@ article .entry-content video.right {
 			    width: auto;
 			}
 			.container .mid-col .mid-col-container {
-			    padding: 0px 70px 0px 40px;
+			    padding: 40px 40px 40px 40px;
 			}
 			.container .mid-col .mid-col-container #content {
 			    width: 100%;
 			}
+			.container .mid-col .mid-col-container #content * {
+			    margin: 5px 0px 0px 0px;
+			}
+
 			.container .mid-col .mid-col-container #content article {
 			    border-top: none;
 			}
