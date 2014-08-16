@@ -10,6 +10,7 @@
     padding: 0;
 }
 
+
 body {
     background: #eee;
     font-size: 13px;
@@ -1279,10 +1280,26 @@ article .entry-content video.right {
 			.container .mid-col .mid-col-container #content {
 			    width: 100%;
 			}
+			.container .mid-col .mid-col-container h3 {
+			    color: #4183c5;
+			}
+			.container .mid-col .mid-col-container h4 {
+			    color: #4183c5;
+			}
+			.container .mid-col .mid-col-container #content table {
+			    width: 100%;
+			    border-collapse:collapse;
+			}
+
+			.container .mid-col .mid-col-container #content td {
+			    text-align: center;
+			    padding:5px;
+			    border: 0px;
+			}
+
 			.container .mid-col .mid-col-container #content * {
 			    margin: 5px 0px 0px 0px;
 			}
-
 			.container .mid-col .mid-col-container #content article {
 			    border-top: none;
 			}

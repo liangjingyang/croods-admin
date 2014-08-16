@@ -2,6 +2,7 @@
 -module (index).
 -compile(export_all).
 -include_lib("nitrogen_core/include/wf.hrl").
+-include("croods_admin.hrl").
 
 main() -> #template { file="./site/templates/bare.html" }.
 
@@ -40,12 +41,12 @@ get_menu_map() ->
 	].
 get_second_menu_data("id1") ->
     [
-	["玩家详情", player_info],
-	["发邮件", "/"]
+	["玩家详情", {mod, player_info, init}],
+	["发邮件", {right, sid2}]
 	];
 get_second_menu_data(_) ->
     [
-	["测试", "/"]
+	["测试", {right, sid3}]
 	].
 
 get_second_menu_map() ->
@@ -90,7 +91,10 @@ left_body() ->
 	].
 
 right() ->
-    #panel { id = right_body, body = inner_body() }.
+    [
+	#flash{},
+    #panel { id = right_body, body = inner_body() }
+	].
 
 inner_body() -> 
     [
@@ -123,14 +127,25 @@ event({data, Data}) ->
     wf:insert_after(Id, #panel{
 	    id = secondMenu,
 	    body = get_second_menu(Id)
-	    }),
-    ok;
-event(player_info) ->
-    player_info(),
-    ok;
-event(_) ->
+	    });
+event({mod, Mod, Msg}) ->
+    case catch Mod:event(Msg) of
+	ok ->
+	    ok;
+	{error, Error} ->
+	    wf:flash(#p{body = [wf:f("~p~n", [Error])]});
+	_Error ->
+	    wf:flash(#p{body = [wf:f("~p~n", [_Error])]})
+    end;
+event(_Other) ->
+    wf:replace(right_body, #panel{id = right_body, body = [io_lib:format("~p~n", [_Other])]}),
     ok.
 
-player_info() ->
-    wf:replace(right_body, #panel{id = right_body, body = ["hahahahahhah"]}).
+inplace_textbox_event({mod, Mod, Tag}, Value) ->
+    Value2 = Mod:inplace_textbox_event(Tag, Value),
+    Value2;
+inplace_textbox_event(Tag, Value) ->
+    wf:flash(#p{body = [wf:f("inplace_textbox_event, tag:~p~nvalue:~p~n", [Tag, Value])]}),
+    Value.
+
 
