@@ -7,6 +7,7 @@
 %% ===================================================================
 
 start(_StartType, _StartArgs) ->
+    config_dyn:init(),
     nitrogen_sup:start_link().
 
 stop(_State) ->

@@ -12,7 +12,7 @@ left_title() ->
     [
      #p{},
      "Current Server&nbsp;&nbsp;&nbsp;&nbsp;",
-     #dropdown { options=[
+     #dropdown { id = server_list, options=[
 			  #option { text="S1" },
 			  #option { text="S2" },
 			  #option { text="S3" },
