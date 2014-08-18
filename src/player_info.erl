@@ -5,7 +5,7 @@
 
 -include("croods_admin.hrl").
 -include("proto.hrl").
--include("config.hrl").
+-include("common.hrl").
 -include_lib("nitrogen_core/include/wf.hrl").
 
 event(init) ->
@@ -68,6 +68,7 @@ player_info_title() ->
 
 player_info_body(Data) ->
     #ares_player_info{
+	account = Account,
 	hero = Hero, 
 	eliteList = EliteList,
 	monList = MonList,
@@ -77,6 +78,37 @@ player_info_body(Data) ->
 	other = Other,
 	isOnline = IsOnline
 	} = Data,
+
+    OnlineBody = 
+    case IsOnline of
+	true ->
+	    [#button{id = kickoff, text = "踢下线", postback = {mod, ?MODULE, kickoff}}];
+	false ->
+	    []
+    end,
+
+    #db_account{status = AccStatus, status_time = AccStatusTime} = Account,
+    case AccStatus of
+	?ACCOUNT_STATUS_NORMAL ->
+	    AccStatusStr = "正常",
+	    AccStatusBody = [
+		    #button{id = temp_ban, text = "临时封号", postback = {mod, ?MODULE, temp_ban}},
+		    #button{id = ban, text = "永久封号", postback = {mod, ?MODULE, ban}}
+		    ];
+	?ACCOUNT_STATUS_TEMP_BAN ->
+	    AccStatusStr = "临时封号",
+	    AccStatusBody = [
+		    #button{id = unban, text = "解封", postback = {mod, ?MODULE, unban}},
+		    #button{id = ban, text = "永久封号", postback = {mod, ?MODULE, ban}}
+		    ];
+	?ACCOUNT_STATUS_BAN ->
+	    AccStatusStr = "永久封号",
+	    AccStatusBody = [
+		    #button{id = unban, text = "解封", postback = {mod, ?MODULE, unban}},
+		    #button{id = ban, text = "临时封号", postback = {mod, ?MODULE, temp_ban}}
+		    ]
+    end,
+
 
     #'PSC_hero'{
 	id = Id, name = Name, accname = Accname, sex = Sex,
@@ -160,6 +192,32 @@ player_info_body(Data) ->
 	    ],
     
     [
+	#br{},
+	#hr{},
+	#br{},
+
+	#h4{text = "账号状态"},
+	#table { rows = [
+		#tablerow { cells=[
+			#tablecell {
+			    text = "是否在线", 
+			    style = "text-align:right; background-color:#ddd"},
+			#tablecell {
+			    text = IsOnline, 
+			    style = "background-color:#eee"},
+			#tablecell {
+			    body = OnlineBody, 
+			    style = "background-color:#eee"},
+			#tablecell {text = "账号状态", 
+			    style = "text-align:right; background-color:#ddd"},
+			#tablecell {text = AccStatusStr, 
+			    style = "background-color:#eee"},
+			#tablecell {
+			    body = AccStatusBody, 
+			    style = "background-color:#eee"}
+			]}
+		]},
+
 	#br{},
 	#hr{},
 	#br{},

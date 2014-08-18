@@ -7,7 +7,7 @@
 
 -include("croods_admin.hrl").
 -include("proto.hrl").
--include("config.hrl").
+-include("common.hrl").
 -include_lib("nitrogen_core/include/wf.hrl").
 
 -define(SEND_TO_ALL, "发送给所有玩家").

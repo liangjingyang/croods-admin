@@ -30,11 +30,11 @@ get_server_by_id(Id) ->
 
 get_server_list() ->
     [
-	{"S1", "www.heromaze.com", 8443},
-	{"S2", "www.heromaze.com", 8443},
-	{"S3", "www.heromaze.com", 8443},
-	{"S4", "www.heromaze.com", 8443},
-	{"S5", "www.heromaze.com", 8443}
+	{"S1", "www.heromaze.com", 20136},
+	{"S2", "www.heromaze.com", 20136},
+	{"S3", "www.heromaze.com", 20136},
+	{"S4", "www.heromaze.com", 20136},
+	{"S5", "www.heromaze.com", 20136}
 	].
 
 ithrow(Error) ->

@@ -23,7 +23,7 @@
 
 %% 查询玩家详细信息
 -record(areq_player_info, {type, data}).
--record(ares_player_info, {hero, eliteList, monList, trapList, itemList, skinList,
+-record(ares_player_info, {account, hero, eliteList, monList, trapList, itemList, skinList,
 	other, isOnline}).
 %% 根据玩家id查询
 -define(TYPE_PLAYER_ID, 1).
