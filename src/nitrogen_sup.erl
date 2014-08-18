@@ -22,6 +22,11 @@ start_link() ->
 %% ===================================================================
 
 init([]) ->
+    config_dyn:init(),
+    %dets:open_file(?D_LOG, [{file, "site/database/admin_log.dets"}]),
+    %dets:open_file(?D_MISC, [{file, "site/database/admin_misc.dets"}]),
+    %dets:open_file(?D_USER, [{file, "site/database/admin_user.dets"}]),
+    %ets:new(?E_MISC, [named_table, public]),
     %% Start the Process Registry...
     application:start(crypto),
     application:start(nprocreg),

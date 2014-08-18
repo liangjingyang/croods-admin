@@ -5,10 +5,11 @@
 
 -compile(export_all).
 
-request(ServerId, Req) ->
+request(Req) ->
     Ticket = "123456",
     Args = "faiengoi2ihvlkjg",
     Token = erlang:md5(Ticket ++ Args),
+    ServerId = wf:q(server_list),
     {D, P} = get_server_by_id(ServerId),
     {ok, {{_, 200, _}, _, Data}} = httpc:request(post, 
 	    {lists:concat(["http://", D, ":", P, "/"]), 

@@ -42,7 +42,7 @@ get_menu_map() ->
 get_second_menu_data("id1") ->
     [
 	["玩家详情", {mod, player_info, init}],
-	["发邮件", {right, sid2}]
+	["发邮件", {mod, email, init}]
 	];
 get_second_menu_data(_) ->
     [
@@ -138,6 +138,10 @@ event({mod, Mod, Msg}) ->
 	    wf:flash(#p{body = [wf:f("~p~n", [_Error])]})
     end;
 event(_Other) ->
+    wf:replace(right_body, #panel{id = right_body, body = [io_lib:format("~p~n", [_Other])]}),
+    ok.
+
+evnet_invalid(_Other) ->
     wf:replace(right_body, #panel{id = right_body, body = [io_lib:format("~p~n", [_Other])]}),
     ok.
 

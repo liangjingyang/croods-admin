@@ -15,8 +15,7 @@ event(init) ->
 event(playerId) ->
     Value = wf:q(playerId),
     Req = #areq_player_info{type = ?TYPE_PLAYER_ID, data = list_to_integer(Value)},
-    ServerId = wf:q(server_list),
-    Data = misc:request(ServerId, Req),
+    Data = misc:request(Req),
     wf:flash(wf:f("玩家 ~p 信息查询成功!", [Value])),
     Title = player_info_title(),
     Body = player_info_body(Data),
@@ -26,8 +25,7 @@ event(playerId) ->
 event(name) ->
     Value = wf:q(name),
     Req = #areq_player_info{type = ?TYPE_PLAYER_NAME, data = Value},
-    ServerId = wf:q(server_list),
-    Data = misc:request(ServerId, Req),
+    Data = misc:request(Req),
     wf:flash(wf:f("玩家 ~p 信息查询成功!", [Value])),
     Title = player_info_title(),
     Body = player_info_body(Data),
@@ -36,8 +34,7 @@ event(name) ->
 event(accname) ->
     Value = wf:q(accname),
     Req = #areq_player_info{type = ?TYPE_PLAYER_ACCNAME, data = Value},
-    ServerId = wf:q(server_list),
-    Data = misc:request(ServerId, Req),
+    Data = misc:request(Req),
     wf:flash(wf:f("玩家 ~p 信息查询成功!", [Value])),
     Title = player_info_title(),
     Body = player_info_body(Data),
