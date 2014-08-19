@@ -10,47 +10,48 @@ title() -> "Croods-Admin".
 
 left_title() ->
     [
-     #p{},
-     "Current Server&nbsp;&nbsp;&nbsp;&nbsp;",
-     #dropdown { id = server_list, options=[
-			  #option { text="S1" },
-			  #option { text="S2" },
-			  #option { text="S3" },
-			  #option { text="S5" }
-			 ]}
-    ].
+	#p{},
+	"Current Server&nbsp;&nbsp;&nbsp;&nbsp;",
+	#dropdown { id = server_list, options=[
+		#option { text="S1" },
+		#option { text="S2" },
+		#option { text="S3" },
+		#option { text="S5" }
+		]}
+	].
 
 get_menu_data() ->
     [
-	%[text, data, id],
-	["玩家管理", {data,1}, "id1"],
-	["用户管理", {data,2}, "id2"],
-	["权限管理", {data,3}, "id3"],
-	["服务器管理", {data,4}, "id4"],
-	["button5", {data,5}, "id5"],
-	["button6", {data,6}, "id6"],
-	["button7", {data,7}, "id7"],
-	["button8", {data,8}, "id8"]
+	[?F_PLAYER, "玩家管理", {menu, ?F_PLAYER}],
+	[?F_ACCOUNT, "用户和组", {menu, ?F_ACCOUNT}],
+	[?F_SERVER, "服务器管理", {menu, ?F_SERVER}]
 	].
 
 get_menu_map() ->
     [
+	menuButton@id,
 	menuButton@text,
-	menuButton@postback,
-	menuButton@id
+	menuButton@postback
 	].
-get_second_menu_data("id1") ->
+get_second_menu_data(f_player) ->
     [
-	["玩家详情", {mod, player_info, init}],
-	["发邮件", {mod, email, init}]
+	[?S_PLAYER_INFO, "玩家详情", {mod, player_info, ?S_PLAYER_INFO}],
+	[?S_EMAIL, "发邮件", {mod, email, ?S_EMAIL}]
+	];
+get_second_menu_data(f_account) ->
+    [
+	[?S_ACCOUNT, "用户管理", {mod, account, ?S_ACCOUNT}],
+	[?S_GROUP, "组管理", {mod, account, ?S_GROUP}],
+	[?S_ACCESS, "权限管理", {mod, account, ?S_ACCESS}]
 	];
 get_second_menu_data(_) ->
     [
-	["测试", {right, sid3}]
+	[test, "测试", {right, sid3}]
 	].
 
 get_second_menu_map() ->
     [
+	link@id,
 	link@text,
 	link@postback
 	].
@@ -73,69 +74,115 @@ get_second_menu(Id) ->
 			#tablecell { body = #link { id = link, url = "" } }
 			]}}
 	    ]}.
-    
+
 %%% ALTERNATE BACKGROUND COLORS %%%
 alternate_color(DataRow, Acc) when Acc == []; Acc==odd ->
-        {DataRow, even, {top@style, "background-color: #eee; width: 100%"}};
+    {DataRow, even, {top@style, "background-color: #eee; width: 100%"}};
 
 alternate_color(DataRow, Acc) when Acc == even ->
-        {DataRow, odd, {top@style, "background-color: #ddd;"}}.
+    {DataRow, odd, {top@style, "background-color: #ddd;"}}.
 
 left_body() ->
+    case wf:user() /= undefined of 
+	true  -> left_body_authed();
+	false -> left_body_not_authed()
+    end.
+
+left_body_not_authed() ->
+    wf:wire(okButton, userTextBox, #validate { validators=[
+		#is_required { text="Required" }
+		]}),
+    wf:wire(okButton, passTextBox, #validate { validators=[
+		#is_required { text="Required" }
+		]}),
+    [
+	#br{},
+	#p{},
+	#label { text="Username"},
+	#p{},
+	#textbox { id=userTextBox, next=passTextBox, style = "width:60%"},
+	#p{},
+	#label { text="Password"},
+	#p{},
+	#password { id=passTextBox, next=okButton, style = "width:60%"},
+	#p{},
+	#br{},
+	#button { id=okButton, text="Login", postback=login_btn, style =
+	    "width:100%"},
+	#p{},
+	#br{},
+	#flash{}
+	].
+
+left_body_authed() ->
     Data = get_menu_data(),
     Map = get_menu_map(),
     [
 	#bind{id = aaa, data = Data, map = Map, body = [
 		#button{id = menuButton}
-		]}
+		]},
+	#p{},
+	#p{},
+	#br{},
+	#hr{},
+	#p{},
+	#p{},
+	#br{},
+	#link{text = "Logout", postback = logout_btn}
 	].
 
 right() ->
     [
 	#flash{},
-    #panel { id = right_body, body = inner_body() }
+	#panel { id = right_body, body = inner_body() }
 	].
 
 inner_body() -> 
+    case wf:user() of 
+	undefined  -> Text = "Welcome to Croods-Admin";
+	User -> Text = wf:f("Welcome ~s", [User])
+    end,
     [
-     #h1 { text="Welcome to Nitrogen" },
-     #p{},
-     "
-	If you can see this page, then your Nitrogen server is up and
-	running. Click the button below to test postbacks.
-	",
+	#h1 { text=Text, style = "text-align: center" },
+	#br{},
+	#p{},
+	#h3{ text = "贵有恒，何须三更眠五更起", style = "text-align: center"},
 	#p{}, 	
-	#button { id=button, text="Click me!", postback=click },
-		#p{},
-	"
-	Run <b>./bin/dev help</b> to see some useful developer commands.
-	",
-		#p{},
-		"
-     <b>Want to see the ",#link{text="Sample Nitrogen jQuery Mobile Page",url="/mobile"},"?</b>
-		"
-    ].
+	#p{},
+	#h3{ text = "最无益，只怕一日曝十日寒", style = "text-align: center"},
+	#p{}, 	
+	#br{}
+	].
 
-event(click) ->
-    wf:replace(button, #panel { 
-			  body="You clicked the button!", 
-			  actions=#effect { effect=highlight }
-			 });
-event({data, Data}) ->
-    Id = "id" ++ wf:to_list(Data),
+event({menu, Id}) ->
     wf:remove(secondMenu),
     wf:insert_after(Id, #panel{
 	    id = secondMenu,
 	    body = get_second_menu(Id)
 	    });
+event(login_btn) ->
+    User = wf:q(userTextBox),
+    Passwd = wf:q(passTextBox),
+    case dets:lookup(?D_USER, User) of
+	[#d_user{passwd = Passwd}] ->
+	    wf:user(User),
+	    wf:redirect_from_login("index");
+	_ ->
+	    wf:flash("无效的用户名密码")
+    end;
+
+event(logout_btn) ->
+    wf:clear_session(),
+    wf:redirect_from_login("index");
+
 event({mod, Mod, Msg}) ->
     case catch Mod:event(Msg) of
 	ok ->
 	    ok;
 	{error, Error} ->
-	    wf:flash(#p{body = [wf:f("~p~n", [Error])]});
+	    misc:flash(#p{body = [wf:f("~p~n", [Error])]});
 	_Error ->
-	    wf:flash(#p{body = [wf:f("~p~n", [_Error])]})
+	    misc:flash(#p{body = [wf:f("~p~n", [_Error])]})
     end;
 event(_Other) ->
     wf:replace(right_body, #panel{id = right_body, body = [io_lib:format("~p~n", [_Other])]}),
@@ -149,7 +196,7 @@ inplace_textbox_event({mod, Mod, Tag}, Value) ->
     Value2 = Mod:inplace_textbox_event(Tag, Value),
     Value2;
 inplace_textbox_event(Tag, Value) ->
-    wf:flash(#p{body = [wf:f("inplace_textbox_event, tag:~p~nvalue:~p~n", [Tag, Value])]}),
+    misc:flash(#p{body = [wf:f("inplace_textbox_event, tag:~p~nvalue:~p~n", [Tag, Value])]}),
     Value.
 
 

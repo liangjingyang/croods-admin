@@ -7,6 +7,8 @@
     init/1
 ]).
 
+-include("croods_admin.hrl").
+
 %% Helper macro for declaring children of supervisor
 -define(CHILD(I, Type), {I, {I, start_link, []}, permanent, 5000, Type, [I]}).
 
@@ -22,11 +24,7 @@ start_link() ->
 %% ===================================================================
 
 init([]) ->
-    config_dyn:init(),
-    %dets:open_file(?D_LOG, [{file, "site/database/admin_log.dets"}]),
-    %dets:open_file(?D_MISC, [{file, "site/database/admin_misc.dets"}]),
-    %dets:open_file(?D_USER, [{file, "site/database/admin_user.dets"}]),
-    %ets:new(?E_MISC, [named_table, public]),
+    misc:init(),
     %% Start the Process Registry...
     application:start(crypto),
     application:start(nprocreg),

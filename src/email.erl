@@ -16,7 +16,7 @@
 -define(SEND_BY_NAME, "按照名字列表发送").
 
 
-event(init) ->
+event(?S_EMAIL) ->
     Body = email_body(),
     wf:replace(right_body, #panel{id = right_body, body = Body}),
     ok;
@@ -41,14 +41,14 @@ event(confirm_send_email) ->
     #ares_err{error = Err} = misc:request(Req),
     case Err =:= ?ADMIN_SUCC of 
 	true ->
-	    wf:flash("发送成功，请登录测试账号查看。每秒钟发送500个账号左右，有的账号会有延迟");
+	    misc:flash("发送成功，请登录测试账号查看。每秒钟发送500个账号左右，有的账号会有延迟");
 	false ->
-	    wf:flash(wf:f("发送失败：~p", [Err]))
+	    misc:flash(wf:f("发送失败：~p", [Err]))
     end,
     ok;
 
 event(Msg) ->
-    wf:flash(#p{body = [wf:f("player_info event: ~p~n", [Msg])]}),
+    misc:flash(#p{body = [wf:f("player_info event: ~p~n", [Msg])]}),
     ok.
 
 q_email_type() ->

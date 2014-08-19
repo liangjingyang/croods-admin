@@ -8,7 +8,7 @@
 -include("common.hrl").
 -include_lib("nitrogen_core/include/wf.hrl").
 
-event(init) ->
+event(?S_PLAYER_INFO) ->
     Body = player_info_title(),
     wf:replace(right_body, #panel{id = right_body, body = Body}),
     ok;
@@ -16,7 +16,7 @@ event(playerId) ->
     Value = wf:q(playerId),
     Req = #areq_player_info{type = ?TYPE_PLAYER_ID, data = list_to_integer(Value)},
     Data = misc:request(Req),
-    wf:flash(wf:f("玩家 ~p 信息查询成功!", [Value])),
+    misc:flash(wf:f("玩家 ~p 信息查询成功!", [Value])),
     Title = player_info_title(),
     Body = player_info_body(Data),
     wf:replace(right_body, #panel{id = right_body, body = Title ++ Body}),
@@ -26,7 +26,7 @@ event(name) ->
     Value = wf:q(name),
     Req = #areq_player_info{type = ?TYPE_PLAYER_NAME, data = Value},
     Data = misc:request(Req),
-    wf:flash(wf:f("玩家 ~p 信息查询成功!", [Value])),
+    misc:flash(wf:f("玩家 ~p 信息查询成功!", [Value])),
     Title = player_info_title(),
     Body = player_info_body(Data),
     wf:replace(right_body, #panel{id = right_body, body = Title ++ Body}),
@@ -35,17 +35,28 @@ event(accname) ->
     Value = wf:q(accname),
     Req = #areq_player_info{type = ?TYPE_PLAYER_ACCNAME, data = Value},
     Data = misc:request(Req),
-    wf:flash(wf:f("玩家 ~p 信息查询成功!", [Value])),
     Title = player_info_title(),
     Body = player_info_body(Data),
     wf:replace(right_body, #panel{id = right_body, body = Title ++ Body}),
+    misc:flash(wf:f("玩家 ~p 信息查询成功!", [Value])),
     ok;
+event({kickoff, Id}) ->
+    Req = #areq_kickoff{id = Id},
+    misc:request(Req),
+    misc:flash("踢下线, 指令已发送, 请重新查询最新状态"),
+    ok;
+event({ban, Msg, Status, Id, Accname}) ->
+    Req = #areq_account_status{id = Id, accname = Accname, status = Status},
+    misc:request(Req),
+    misc:flash(wf:f("~s 指令已发送, 请重新查询最新状态", [Msg])),
+    ok;
+
 event(Msg) ->
-    wf:flash(#p{body = [wf:f("player_info event: ~p~n", [Msg])]}),
+    misc:flash(#p{body = [wf:f("player_info event: ~p~n", [Msg])]}),
     ok.
 
 inplace_textbox_event(Tag, Value) ->
-    wf:flash(#p{body = [wf:f("player_info, inplace_textbox_event, tag:~p~nvalue:~p~n", [Tag, Value])]}),
+    misc:flash(#p{body = [wf:f("player_info, inplace_textbox_event, tag:~p~nvalue:~p~n", [Tag, Value])]}),
     Value.
 
 
@@ -79,10 +90,13 @@ player_info_body(Data) ->
 	isOnline = IsOnline
 	} = Data,
 
+    PlayerId = Hero#'PSC_hero'.id,
+    Accname = Hero#'PSC_hero'.accname,
+
     OnlineBody = 
     case IsOnline of
 	true ->
-	    [#button{id = kickoff, text = "踢下线", postback = {mod, ?MODULE, kickoff}}];
+	    [#button{id = kickoff, text = "踢下线", postback = {mod, ?MODULE, {kickoff, PlayerId}}}];
 	false ->
 	    []
     end,
@@ -92,20 +106,26 @@ player_info_body(Data) ->
 	?ACCOUNT_STATUS_NORMAL ->
 	    AccStatusStr = "正常",
 	    AccStatusBody = [
-		    #button{id = temp_ban, text = "临时封号", postback = {mod, ?MODULE, temp_ban}},
-		    #button{id = ban, text = "永久封号", postback = {mod, ?MODULE, ban}}
+		    #button{id = temp_ban, text = "封号一小时", 
+			postback = {mod, ?MODULE, {ban, "封号一小时", ?ACCOUNT_STATUS_TEMP_BAN, PlayerId, Accname}}},
+		    #button{id = ban, text = "永久封号", 
+			postback = {mod, ?MODULE, {ban, "永久封号", ?ACCOUNT_STATUS_BAN, PlayerId, Accname}}}
 		    ];
 	?ACCOUNT_STATUS_TEMP_BAN ->
 	    AccStatusStr = "临时封号",
 	    AccStatusBody = [
-		    #button{id = unban, text = "解封", postback = {mod, ?MODULE, unban}},
-		    #button{id = ban, text = "永久封号", postback = {mod, ?MODULE, ban}}
+		    #button{id = unban, text = "解封", 
+			postback = {mod, ?MODULE, {ban, "解封", ?ACCOUNT_STATUS_NORMAL, PlayerId, Accname}}},
+		    #button{id = ban, text = "永久封号", 
+			postback = {mod, ?MODULE, {ban, "永久封号", ?ACCOUNT_STATUS_BAN, PlayerId, Accname}}}
 		    ];
 	?ACCOUNT_STATUS_BAN ->
 	    AccStatusStr = "永久封号",
 	    AccStatusBody = [
-		    #button{id = unban, text = "解封", postback = {mod, ?MODULE, unban}},
-		    #button{id = ban, text = "临时封号", postback = {mod, ?MODULE, temp_ban}}
+		    #button{id = unban, text = "解封", 
+			postback = {mod, ?MODULE, {ban, "解封", ?ACCOUNT_STATUS_NORMAL, PlayerId, Accname}}},
+		    #button{id = ban, text = "封号一小时", 
+			postback = {mod, ?MODULE, {ban, "封号一小时", ?ACCOUNT_STATUS_TEMP_BAN, PlayerId, Accname}}}
 		    ]
     end,
 

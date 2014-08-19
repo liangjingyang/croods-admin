@@ -744,6 +744,8 @@
 
 %% system notice
 -define(NOTICE_ERR_LOGIN_AGAIN, 1).
+-define(NOTICE_ERR_NO_HEARTBEAT, 2).
+-define(NOTICE_ERR_KICKOFF, 3).
 
 -define(UNFINISHED, 0).
 -define(FINISHED, 1).
