@@ -75,5 +75,8 @@ ithrow(Error) ->
     erlang:throw({error, Error}).
 
 
+alternate_color(DataRow, Acc) when Acc == []; Acc==odd ->
+    {DataRow, even, {top@style, "background-color: #eee;"}};
 
-
+alternate_color(DataRow, Acc) when Acc == even ->
+    {DataRow, odd, {top@style, "background-color: #ddd;"}}.

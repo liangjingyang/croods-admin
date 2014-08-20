@@ -11,19 +11,19 @@
 -record(d_user, {name, passwd, group, status = 0}).
 % 组
 -define(D_GROUP, d_group).
--record(d_group, {group, access_list, user_list, status = 0}).
+-record(d_group, {group, access_list = [], user_list = [], status = 0}).
 
 
 %% 一级菜单
--define(F_PLAYER, f_player).
--define(F_ACCOUNT, f_account).
--define(F_SERVER, f_server).
+-define(F_PLAYER, "玩家管理").
+-define(F_ACCOUNT, "用户和组").
+-define(F_SERVER, "服务器管理").
 %% 二级菜单
--define(S_PLAYER_INFO, s_player_info).
--define(S_EMAIL, s_email).
--define(S_ACCOUNT, s_account).
--define(S_GROUP, s_group).
--define(S_ACCESS, s_access).
+-define(S_PLAYER_INFO, "玩家详细信息").
+-define(S_EMAIL, "发邮件").
+-define(S_ACCOUNT, "用户管理").
+-define(S_GROUP, "组管理").
+-define(S_ACCESS, "权限管理").
 %% 权限列表
 -define(ACCESS_LIST, [
 	?F_PLAYER, ?F_ACCOUNT, ?F_SERVER,

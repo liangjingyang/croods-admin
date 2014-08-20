@@ -22,9 +22,9 @@ left_title() ->
 
 get_menu_data() ->
     [
-	[?F_PLAYER, "玩家管理", {menu, ?F_PLAYER}],
-	[?F_ACCOUNT, "用户和组", {menu, ?F_ACCOUNT}],
-	[?F_SERVER, "服务器管理", {menu, ?F_SERVER}]
+	[?F_PLAYER, ?F_PLAYER, {menu, ?F_PLAYER}],
+	[?F_ACCOUNT, ?F_ACCOUNT, {menu, ?F_ACCOUNT}],
+	[?F_SERVER, ?F_SERVER, {menu, ?F_SERVER}]
 	].
 
 get_menu_map() ->
@@ -33,16 +33,16 @@ get_menu_map() ->
 	menuButton@text,
 	menuButton@postback
 	].
-get_second_menu_data(f_player) ->
+get_second_menu_data(?F_PLAYER) ->
     [
-	[?S_PLAYER_INFO, "玩家详情", {mod, player_info, ?S_PLAYER_INFO}],
-	[?S_EMAIL, "发邮件", {mod, email, ?S_EMAIL}]
+	[?S_PLAYER_INFO, ?S_PLAYER_INFO, {mod, player_info, ?S_PLAYER_INFO}],
+	[?S_EMAIL, ?S_EMAIL, {mod, email, ?S_EMAIL}]
 	];
-get_second_menu_data(f_account) ->
+get_second_menu_data(?F_ACCOUNT) ->
     [
-	[?S_ACCOUNT, "用户管理", {mod, account, ?S_ACCOUNT}],
-	[?S_GROUP, "组管理", {mod, account, ?S_GROUP}],
-	[?S_ACCESS, "权限管理", {mod, account, ?S_ACCESS}]
+	[?S_ACCOUNT, ?S_ACCOUNT, {mod, account, ?S_ACCOUNT}],
+	[?S_GROUP, ?S_GROUP, {mod, account, ?S_GROUP}],
+	[?S_ACCESS, ?S_ACCESS, {mod, account, ?S_ACCESS}]
 	];
 get_second_menu_data(_) ->
     [

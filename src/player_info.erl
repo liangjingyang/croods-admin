@@ -263,7 +263,7 @@ player_info_body(Data) ->
 		    id=tableBinding, 
 		    data = EliteData2,
 		    map = EliteMap, 
-		    transform=fun alternate_color/2,
+		    transform=fun misc:alternate_color/2,
 		    body=#tablerow { id=top, cells=[
 			    #tablecell {id=ename},
 			    #tablecell {id=eid},
@@ -302,8 +302,3 @@ player_info_body(Data) ->
 	].                                 
                                            
                                            
-alternate_color(DataRow, Acc) when Acc == []; Acc==odd ->
-    {DataRow, even, {top@style, "background-color: #eee;"}};
-
-alternate_color(DataRow, Acc) when Acc == even ->
-    {DataRow, odd, {top@style, "background-color: #ddd;"}}.
