@@ -73,11 +73,18 @@ event({del_user, User}) ->
 event({edit_group, Name}) ->
     GroupList = dets:match_object(?D_GROUP, '_'),
     GroupOptions = [#option{text = G#d_group.group}||G<-GroupList],
-    wf:replace(Name, [#dropdown {id=editgroupdrop, next=addbtn, style = "width:auto", options = GroupOptions}, #link{id = edit_group, text = "/确定", postback = {mod, ?MODULE, {edit_group_confirm, editgroupdrop}}}]),
+    wf:replace(Name, #panel{id = Name, body = [
+	    #dropdown {id=editgroupdrop, next=addbtn, style = "width:auto", options = GroupOptions}, 
+	    #link{id = edit_group, text = "/确定", 
+		postback = {mod, ?MODULE, {edit_group_confirm, Name, editgroupdrop}}}
+		]}),
     ok;
-event({edit_group_confirm, Id}) ->
-    NewGroup = wf:q(Id),
-    wf:flash(wf:f("修改用户组为 ~s 成功", [NewGroup])),
+event({edit_group_confirm, Name, Id}) ->
+    Group = wf:q(Id),
+    wf:replace(Name, 
+	#panel{id = Name, body = [#span{text = Group}, #link{id = edit_group, text = "/编辑", postback = {mod, ?MODULE, {edit_group, Name}}}]}
+	),
+    wf:flash(wf:f("修改用户组为 ~s 成功", [Group])),
     ok;
 
 event(Msg) ->
