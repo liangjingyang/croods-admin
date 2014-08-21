@@ -22,7 +22,7 @@ event(?S_EMAIL) ->
     ok;
 
 event(send_email) ->
-    wf:wire(#confirm{postback = confirm_send_email, text = "确认发送邮件？"});
+    wf:wire(#confirm{postback = {mod, ?MODULE, confirm_send_email}, text = "确认发送邮件？"});
 
 
 event(confirm_send_email) ->
