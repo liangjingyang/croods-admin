@@ -5,6 +5,7 @@
               {applications,[kernel,stdlib]},
               {mod,{nitrogen_app,[]}},
               {env,[]},
-              {modules,[account,config_dyn,dynamic_compile,email,index,misc,
-                        mobile,nitrogen_app,nitrogen_cowboy,nitrogen_sup,
+              {modules,[account,config_dyn,dynamic_compile,email,group,
+                        iaccess,iaccount,igroup,index,misc,mobile,
+                        nitrogen_app,nitrogen_cowboy,nitrogen_sup,
                         player_info]}]}.

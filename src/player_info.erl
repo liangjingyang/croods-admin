@@ -287,7 +287,7 @@ player_info_body(Data) ->
 		    id=tableBinding, 
 		    data = MonData2,
 		    map = MonMap, 
-		    transform=fun alternate_color/2,
+		    transform=fun misc:alternate_color/2,
 		    body=#tablerow { id=top, cells=[
 			    #tablecell {id=mname},
 			    #tablecell {id=mid},

@@ -33,18 +33,22 @@ get_menu_map() ->
 	menuButton@text,
 	menuButton@postback
 	].
-get_second_menu_data(?F_PLAYER) ->
+get_second_menu_data(?F_PLAYER, AccessList) ->
+    MenuList = 
     [
 	[?S_PLAYER_INFO, ?S_PLAYER_INFO, {mod, player_info, ?S_PLAYER_INFO}],
 	[?S_EMAIL, ?S_EMAIL, {mod, email, ?S_EMAIL}]
-	];
-get_second_menu_data(?F_ACCOUNT) ->
+	],
+    [M||[Key, _, _] = M <- MenuList, lists:member(Key, AccessList)];
+get_second_menu_data(?F_ACCOUNT, AccessList) ->
+    MenuList = 
     [
-	[?S_ACCOUNT, ?S_ACCOUNT, {mod, account, ?S_ACCOUNT}],
-	[?S_GROUP, ?S_GROUP, {mod, account, ?S_GROUP}],
-	[?S_ACCESS, ?S_ACCESS, {mod, account, ?S_ACCESS}]
-	];
-get_second_menu_data(_) ->
+	[?S_ACCOUNT, ?S_ACCOUNT, {mod, iaccount, ?S_ACCOUNT}],
+	[?S_GROUP, ?S_GROUP, {mod, igroup, ?S_GROUP}],
+	[?S_ACCESS, ?S_ACCESS, {mod, iaccess, ?S_ACCESS}]
+	],
+    [M||[Key, _, _] = M <- MenuList, lists:member(Key, AccessList)];
+get_second_menu_data(_, _) ->
     [
 	[test, "测试", {right, sid3}]
 	].
@@ -57,7 +61,10 @@ get_second_menu_map() ->
 	].
 
 get_second_menu(Id) ->
-    Data = get_second_menu_data(Id),
+    User = wf:user(),
+    [#d_user{group = Group}] = dets:lookup(?D_USER, User),
+    [#d_group{access_list = AccessList}] = dets:lookup(?D_GROUP, Group),
+    Data = get_second_menu_data(Id, AccessList),
     Map = get_second_menu_map(),
     #table { class = tiny, rows = [
 	    #bind { 

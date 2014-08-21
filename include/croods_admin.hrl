@@ -26,7 +26,7 @@
 -define(S_ACCESS, "权限管理").
 %% 权限列表
 -define(ACCESS_LIST, [
-	?F_PLAYER, ?F_ACCOUNT, ?F_SERVER,
+	%?F_PLAYER, ?F_ACCOUNT, ?F_SERVER,
 
 	?S_PLAYER_INFO, ?S_EMAIL, ?S_ACCOUNT,
 	?S_GROUP, ?S_ACCESS
