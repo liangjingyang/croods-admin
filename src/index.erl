@@ -9,15 +9,16 @@ main() -> #template { file="./site/templates/bare.html" }.
 title() -> "Croods-Admin".
 
 left_title() ->
+    Options = lists:map(fun(S) ->
+		{Key, _, _} = S,
+		#option { text = Key }
+	end, misc:get_server_list()),
     [
 	#p{},
 	"Current Server&nbsp;&nbsp;&nbsp;&nbsp;",
-	#dropdown { id = server_list, options=[
-		#option { text="S1" },
-		#option { text="S2" },
-		#option { text="S3" },
-		#option { text="S5" }
-		]}
+	#dropdown { id = server_list, style = "width:100%;", options = Options},
+	#p{},
+	#br{}
 	].
 
 get_menu_data() ->
