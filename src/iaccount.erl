@@ -59,7 +59,7 @@ event({edit_group, Name}) ->
     GroupList = dets:match_object(?D_GROUP, '_'),
     GroupOptions = [#option{text = G#d_group.group}||G<-GroupList],
     CellId = "group" ++ Name,
-    DataId = editgroupdrop,
+    DataId = "editgroupdrop" ++ Name,
     wf:replace(CellId, #tablecell{id = CellId, body = [
 	    #dropdown {id=DataId, next=adduserbtn, style = "width:auto", options = GroupOptions}, 
 	    #link{id = edit_group, text = "/确定", 
