@@ -35,8 +35,9 @@ event(confirm_send_email) ->
 	    List2 = List
     end,
     Content = q_email_content(),
+    Title = q_email_title(),
     Items = q_email_items(),
-    Req = #areq_email{type = Type, list = List2, str = Content, itemList = Items},
+    Req = #areq_email{type = Type, list = List2, str = Content, title = Title, itemList = Items},
     io:format("areq_email, ~p~n", [Req]),
     #ares_err{error = Err} = misc:request(Req),
     case Err =:= ?ADMIN_SUCC of 
@@ -73,6 +74,8 @@ q_email_list() ->
 
 q_email_content() ->
     wf:q(email_content).
+q_email_title() ->
+    wf:q(email_title).
 q_email_items() ->
     Str = wf:q(email_items),
     List = string:tokens(Str, "\n"),
@@ -100,6 +103,11 @@ email_body() ->
 
 	#p{text = "列表（换行分割，发送给所有玩家时不填)"},
 	#textarea { id = email_list, text="", next = email_content }, 
+	#p{},
+	#br{},
+
+	#p{text = "邮件标题"},
+	#textarea { id = email_title, text = "", next = email_content },
 	#p{},
 	#br{},
 

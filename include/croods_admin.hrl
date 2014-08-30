@@ -75,7 +75,7 @@
 -define(TYPE_EMAIL_ID_LIST, 2).
 -define(TYPE_EMAIL_NAME_LIST, 3).
 -define(TYPE_EMAIL_ACCNAME_LIST, 4).
--record(areq_email, {type, list, str, itemList}).
+-record(areq_email, {type = 1, list = [], str = "", title = "", itemList = []}).
 
 
 %% 踢玩家下线

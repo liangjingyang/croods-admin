@@ -149,7 +149,9 @@ player_info_body(Data) ->
 	    ["总充值", TotalDiamond, "体力", Phy, "购买体力次数", BuyPhy],
 	    ["迎击战次数", Detect, "地下城次数", PveAtt, "英雄入侵次数", PvpAtt],
 	    ["魔兽争霸次数", PvpSuff, "分享录像次数", ShareRecord, "怪物猎人出现次数", Hunter],
-	    ["讨价还价次数", HunterBargain, "时间沙漏的等级", Atm#'PSC_atm'.lv, "在线状态", IsOnline]
+	    ["讨价还价次数", HunterBargain, "时间沙漏的等级", Atm#'PSC_atm'.lv, "在线状态", IsOnline],
+	    ["passwd", Account#db_account.passwd, "", "", "", ""]
+
 	    ],
     HeroMap = 
 	[
