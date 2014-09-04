@@ -64,7 +64,8 @@ get_server_by_id(Id) ->
 
 get_server_list() ->
     [
-	{"aliyun_dev", "www.heromaze.com", 20136}
+	{"aliyun_dev", "www.heromaze.com", 20136},
+	{"外服", "www.heromaze.com", 20137}
 	].
 
 ithrow(Error) ->
