@@ -1,18 +1,16 @@
 
 %% 由make_proto.lua自动生成
 
--record('PCS_sprite_status', {id = 0, aimId = 0, status = 0}).
 -record('PSC_set_name', {err = 0, name = ""}).
 -record('PSC_activity_rebate', {rebateNum = 0, rebatePay = 0, rebateDate = 0}).
 -record('PSC_shop_list', {err = 0, vs = 0, list = []}).
 -record('PSC_item_list', {id = 0, itemList = []}).
 -record('PSC_trap_lv_up', {err = 0, id = 0, typeId = 0, lv = 0}).
--record('PSC_mvm', {id = 0, name = "", lv = 0, rank = 0, power = 0, teamId = 0}).
--record('PSC_dungeon_list', {list = []}).
+-record('PSC_mvm', {id = 0, name = "", lv = 0, rank = 0, power = 0, teamId = 0, icon = 0, vip = 0}).
 -record('PCS_trap_on_map', {trapList = []}).
 -record('PSC_item', {id = 0, typeId = 0, num = 0}).
 -record('PSC_attr_up', {err = 0, id = 0, attrId = 0, attrLv = 0}).
--record('PSC_war_win', {floor = 0, type = 0, star = 0, gold = 0, diamond = 0, addExp = 0, exp = 0, phy = 0, lv = 0, award = undefined}).
+-record('PSC_war_win', {floor = 0, type = 0, star = 0, gold = 0, diamond = 0, addExp = 0, exp = 0, phy = 0, lv = 0, award = undefined, rankId = 0, score = 0, hourglass = 0, revengeList = []}).
 -record('PCS_suff_start', {id = 0}).
 -record('PSC_mon_to_soul', {err = 0, id = 0, soul = 0, hourglass = 0}).
 -record('PCS_set_name', {name = ""}).
@@ -23,14 +21,14 @@
 -record('PSC_get_mvm_team', {err = 0, monList = []}).
 -record('PSC_goal', {id = 0, isFinish = 0, isAward = 0, num = 0}).
 -record('PCS_hero_pvp', {aimId = 0}).
--record('PCS_elite_on_hero', {id = 0}).
+-record('PSC_war_lose', {type = 0, star = 0, addExp = 0, exp = 0, phy = 0, lv = 0, score = 0, hourglass = 0}).
 -record('PSC_change_map', {err = 0, typeId = undefined}).
 -record('PCS_mon_to_soul', {id = 0}).
 -record('PCS_attr_up', {id = 0, attrId = 0}).
 -record('PSC_activity_rebate_award', {err = 0}).
 -record('PSC_item_use', {err = 0, typeId = 0, data = 0, dropList = []}).
 -record('PCS_activity_rebate_award', {id = 0}).
--record('PSC_record', {err = 0, id = 0, attId = 0, defId = 0, time = 0, sec = 0, boxColor = 0, map = undefined, hero = undefined, monList = [], bornTKList = [], onHeroElite = [], eliteList = [], actionList = [], dropList = [], trapList = [], fightSeed = [], normalSeed = []}).
+-record('PSC_record', {err = 0, id = 0, attId = 0, defId = 0, time = 0, sec = 0, boxColor = 0, map = undefined, hero = undefined, monList = [], bornTKList = [], onHeroElite = [], eliteList = [], actionList = [], dropList = [], trapList = [], fightSeed = [], normalSeed = [], vip = 0, hourglass = 0, drawHourglass = 0, addExp = 0, winId = 0, attScore = 0, defScore = 0}).
 -record('PCS_get_mvm_team', {id = 0}).
 -record('PCS_set_sex', {sex = 0}).
 -record('PSC_drop_list', {id = 0, list = []}).
@@ -40,165 +38,154 @@
 -record('PCS_battle_refresh', {id = 0}).
 -record('PCS_email_list', {id = 0}).
 -record('PSC_check_accname', {err = 0}).
+-record('PCS_mvm_rank', {id = 0}).
 -record('PSC_first_pay_award', {err = 0}).
--record('PSC_mon_change', {id = 0, list = []}).
+-record('PSC_mvm_rank', {rankList = []}).
 -record('PSC_trap', {id = 0, typeId = 0, lv = 0, camp = 0, bornTK = 0, onMap = 0}).
 -record('PSC_elite_mount', {id = 0, err = 0, onHero = []}).
 -record('PSC_shop_buy', {err = 0, id = 0, buyNum = 0, limitNum = 0, tabbar = 0}).
--record('PCS_sprite_pop', {id = 0, camp = 0}).
 -record('PCS_war_action', {id = 0, action = 0, data = 0, tick = 0}).
 -record('PSC_activity_pay', {id = 0, isFinish = 0, isAward = 0, num = 0}).
 -record('PSC_elite_unmount', {id = 0, err = 0, onHero = []}).
 -record('PCS_client_debug', {msg = ""}).
--record('A', {a1 = 0, a2 = "a2", a3 = [], a4 = undefined}).
+-record('PSC_sign_list', {list = []}).
 -record('PCS_elite_mount', {id = 0}).
--record('C', {c1 = 0, c2 = "c2"}).
+-record('PCS_mvm_refresh', {id = 0}).
 -record('PSC_email_get_item', {err = 0, emailId = 0, idList = []}).
 -record('PSC_map', {err = 0}).
--record('PCS_chat_list', {id = 0}).
--record('PCS_war_end', {warId = 0, tick = 0, type = 0, bornTKList = [], actionList = []}).
--record('OrnaItem', {px = 0, py = 0, order = 0, id = undefined}).
+-record('OrnaItem', {px = 0, py = 0, order = 0, id = ""}).
 -record('PSC_mvm_mon', {id = 0, typeId = 0, sequence = 0, bornTK = 0, lv = 0}).
 -record('PCS_set_guide_step', {guideStep = ""}).
--record('PCS_mon_get_hourglass', {id = 0}).
--record('PCS_chat_item', {type = 0, text = "", data = 0}).
--record('PSC_email', {typeId = 0, id = 0, time = 0, str = "", item_list = [], otherId = 0}).
+-record('PSC_pvp_rank', {rankList = []}).
 -record('PSC_mon_reborn', {err = 0, id = 0, reborn = 0, exp = 0, hourglass = 0}).
--record('PSC_war_check_result', {heroId = 0, heroHp = 0}).
+-record('PSC_save_dungeon_data', {err = 0, typeId = 0, floor = 0}).
 -record('PCS_change_map', {id = 0, typeId = 1}).
 -record('PCS_map', {id = 0, lv = 1, entry = 0, exit = 0, road = [], orna = [], typeId = 3}).
 -record('PCS_check_accname', {accname = ""}).
--record('PSC_chat_list', {list = []}).
 -record('PSC_set_sex', {err = 0, sex = 0}).
--record('Test', {x = []}).
--record('DArray', {key = 0, value = undefined}).
--record('PSC_system_notice', {err = 0, text = "", type = 0}).
--record('PSC_record_index', {recordId = 0, time = 0, attId = 0, defId = 0, attName = "", defName = "", attLv = 0, defLv = 0, winId = 0}).
--record('PSC_pay', {err = 0, id = 0, diamond = 0, gift = 0}).
--record('PCS_pay', {id = 0}).
--record('PSC_sign_award', {err = 0, id = 0}).
+-record('PSC_record_index', {recordId = 0, time = 0, attId = 0, defId = 0, attName = "", defName = "", attLv = 0, defLv = 0, winId = 0, attIcon = 0, defIcon = 0, attRankId = 0, defRankId = 0, diffRank = 0}).
 -record('PSC_dungeon_star', {floor = 0, star = 0}).
 -record('PSC_lv_up_list', {list = []}).
 -record('PCS_skill_up', {id = 0, skillId = 0}).
--record('PCS_sign_award', {id = 0}).
+-record('PSC_random_event', {typeId = 0, data = []}).
 -record('PSC_elite', {id = 0, typeId = 0, lv = 0, exp = 0, camp = 0, hpLv = 0, attLv = 0, speedLv = 0, skillLv = 0, geniusLv = 0, onMap = 0, bornTK = 0, reborn = 0, part = 0, finish = undefined, onHero = undefined}).
--record('PSC_sign', {id = 0, isFinish = 0, isAward = 0}).
--record('PSC_sign_list', {list = []}).
--record('PCS_dungeon_list', {id = 0}).
--record('PCS_first_pay_award', {id = 0}).
--record('PCS_activity_rebate', {id = 0}).
+-record('PCS_dungeon_config', {map = undefined, monlist = []}).
+-record('PSC_pvp_def_info', {defId = 0, defName = "", defLv = 0, defVip = 0, defSex = 0, defHourglass = 0}).
+-record('PSC_easy_buy', {err = 0, type = 0, remain = 0}).
+-record('PCS_easy_buy', {type = 0}).
+-record('PCS_pvp_rank', {id = 0}).
 -record('PSC_mon_on_map', {err = 0}).
--record('PSC_activity_pay_list', {list = []}).
+-record('PCS_mon_get_hourglass', {id = 0}).
 -record('PCS_suff_status', {id = 0}).
+-record('PCS_chat_item', {type = 0, text = "", data = 0}).
 -record('PCS_activity_pay_list', {id = 0}).
--record('PSC_activity_pay_award', {err = 0, id = 0}).
--record('PSC_suff_status', {status = 0}).
+-record('PSC_suff_status', {beginTime = 0, suffheroLv = 0}).
 -record('PSC_new_trap', {trapList = []}).
 -record('PSC_record_trap', {id = 0, lv = 0, typeId = 0, camp = 0, bornTK = 0}).
--record('PSC_drop', {type = 0, typeId = 0, num = 0}).
+-record('PSC_chat_list', {list = []}).
 -record('PCS_mon_on_map', {monList = []}).
--record('PSC_goal_award', {err = 0, id = 0}).
--record('PCS_goal_award', {id = 0}).
--record('PSC_activity_list', {list = []}).
+-record('PCS_chat_list', {id = 0}).
+-record('PSC_pay', {err = 0, id = 0, diamond = 0, gift = 0, totalPay = 0}).
+-record('PSC_effect_single', {id = 0, effectId = 0, value = 0}).
 -record('PSC_shop_item', {id = 0, typeId = 0, sort = 0, gold = 0, diamond = 0, goff = 0, doff = 0, sales = 0, limitNum = 0, isLimit = 0, buyType = 0, tabbar = 0}).
--record('PSC_battle_item', {id = 0, typeId = 0, name = "", lv = 0, gold = 0, mvpId = 0, sex = 0}).
--record('PCS_record', {recordId = 0}).
--record('PCS_record_mvm', {recordId = 0}).
--record('PCS_goal_list', {id = 0}).
+-record('PSC_sign_award', {err = 0, id = 0}).
+-record('PCS_sign_award', {id = 0}).
+-record('PSC_sign', {id = 0, isFinish = 0, isAward = 0}).
+-record('PCS_mon_pvp', {aimId = 0}).
 -record('PSC_record_elite', {id = 0, lv = 0, typeId = 0, hpLv = 0, attLv = 0, speedLv = 0, skillLv = 0, geniusLv = 0}).
 -record('PCS_elite_list', {id = 0}).
--record('PCS_hero_pve_refresh', {heroId = 0}).
+-record('PCS_first_pay_award', {id = 0}).
 -record('PCS_mvm_list', {id = 0}).
 -record('PSC_suff_start', {err = 0, warId = 0, fightSeed = [], normalSeed = [], suffList = [], sec = 0, dropList = []}).
 -record('PSC_record_hero', {id = 0, typeId = 0, sex = 0, lv = 0, skillList = [], vip = 0}).
 -record('PSC_elite_list', {id = 0, list = []}).
 -record('PCS_mvm_start', {id = 0, team = []}).
--record('PSC_hero_pve', {err = 0, warId = 0, fightSeed = [], normalSeed = [], sec = 0, dropList = [], floor = 0, bossId = 0, section = 0}).
--record('PCS_hero_pve', {dungeonType = 1}).
+-record('PCS_activity_rebate', {id = 0}).
+-record('PSC_activity_pay_list', {list = []}).
 -record('PSC_mvm_start', {err = 0, warId = 0, fightSeed = [], normalSeed = [], sec = 0, mapId = 0, mapSkin = 0, dropList = [], defList = [], attAtm = undefined, defAtm = undefined}).
 -record('PCS_chat', {channel = 0, id = 0, iconId = 0, name = "", lv = 0, time = 0, text = "", item = undefined}).
 -record('RoadTile', {left = undefined, right = undefined, up = undefined, down = undefined, come = undefined}).
--record('PCS_hero_pve_data', {dungeonType = 0, eliteList = [], monList = [], trapList = [], exit = 0, floor = 0}).
+-record('PSC_activity_pay_award', {err = 0, id = 0}).
 -record('PSC_hero_change', {id = 0, list = []}).
 -record('PSC_handbook', {type = 0, list = []}).
 -record('PSC_elite_change', {id = 0, list = []}).
 -record('PCS_record_index_list', {id = 0, typeId = 0}).
--record('PSC_pve_refresh', {list = []}).
--record('PSC_sprite_change', {id = 0, changeList = []}).
--record('PSC_heartbeat', {time = 0}).
--record('PCS_handbook_list', {id = 0}).
+-record('PSC_record_onhero_elite', {typeId = 0, hpLv = 0, attLv = 0, speedLv = 0, skillLv = 0}).
+-record('PSC_goal_award', {err = 0, id = 0}).
+-record('PCS_goal_award', {id = 0}).
+-record('PSC_activity_list', {list = []}).
 -record('PSC_record_index_list', {typeId = 0, list = []}).
 -record('PSC_activity_time', {id = 0, open = 0, close = 0}).
--record('PCS_shop_list', {id = 0}).
--record('PSC_email_openbox', {err = 0, id = 0, dropList = undefined}).
--record('PCS_email_openbox', {err = 0, id = 0}).
+-record('PCS_record_mvm', {recordId = 0}).
+-record('PSC_handbook_list', {err = 0, list = []}).
+-record('PCS_goal_list', {id = 0}).
 -record('PSC_mon_pvp', {err = 0, warId = 0, fightSeed = [], normalSeed = [], sec = 0, mapId = 0, mapSkin = 0, dropList = []}).
 -record('PSC_mon', {id = 0, typeId = 0, lv = 0, exp = 0, camp = 0, bornTK = 0, onMap = 0, reborn = 0, part = 0, hgTime = 0, inTeam = 0}).
--record('PCS_email_get_item', {emailId = 0, idList = []}).
--record('PCS_email_confirm', {list = []}).
--record('PSC_hero_pve_data', {err = 0, dungeonType = 0, boxColor = 0}).
--record('PSC_email_list', {list = []}).
+-record('PSC_hero_pve', {err = 0, warId = 0, fightSeed = [], normalSeed = [], sec = 0, dropList = [], floor = 0, bossId = 0, bossLv = 0, section = 0, boxColor = 0}).
+-record('PCS_hero_pve', {dungeonType = 0, floor = 0, replaceId = 0}).
+-record('PSC_get_dungeon_data', {err = 0, typeId = 0, floor = 0, eliteList = [], monList = [], trapList = [], map = undefined}).
+-record('PCS_get_dungeon_data', {typeId = 0, floor = 0}).
 -record('PCS_item_sale', {typeId = 0, num = 0}).
 -record('PSC_mvm_refresh', {err = 0, mvmList = []}).
--record('PSC_handbook_list', {err = 0, list = []}).
+-record('PCS_save_dungeon_data', {typeId = 0, floor = 0, eliteList = [], monList = [], trapList = [], map = undefined}).
 -record('PSC_hero', {id = 0, typeId = 0, sex = 2, accname = "", name = "", lv = 0, exp = 0, phy = 0, diamond = 0, gold = 0, soul = 0, know = 0, hourglass = 0, charm = 0, skillList = [], eliteList = [], pvpAtt = 0, pvpSuff = 0, pveAtt = 0, pveSuff = 0, onHero = [], mvpId = 0, vip = 0, totalDiamond = 0, detect = 0, buyPhy = 0, shareRecord = 0, hunter = 0, hunterBargain = 0, atm = undefined}).
 -record('PSC_trap_to_know', {err = 0, id = 0, know = 0}).
 -record('PCS_heartbeat', {id = 0}).
--record('PSC_record_onhero_elite', {typeId = 0, hpLv = 0, attLv = 0, speedLv = 0, skillLv = 0}).
--record('PSC_mvm_list', {err = 0, id = 0, power = 0, num = 0, ranking = 0, mvmList = []}).
--record('PSC_effect_single', {id = 0, effectId = 0, value = 0}).
--record('PSC_sign_up', {err = 0}).
+-record('PSC_heartbeat', {time = 0}).
+-record('PCS_email_get_item', {emailId = 0, idList = []}).
+-record('PCS_shop_list', {id = 0}).
+-record('DArray', {key = 0, value = undefined}).
 -record('PCS_shop_buy', {vs = 0, id = 0, buyType = 1, num = 1}).
 -record('PSC_new_mon', {monList = []}).
--record('PSC_battle', {type = 0, list = []}).
--record('PCS_sprite_fight_start', {id = 0, camp = 0, aimId = 0, aimCamp = 0}).
--record('PSC_sprite_fight', {attId = 0, beAttId = 0, hurt = 0, myEffect = [], aimEffect = []}).
--record('PCS_suff_detect', {id = 0}).
--record('PSC_skill', {id = 0, status = 0, lv = 0}).
--record('PCS_battle', {type = 0}).
+-record('PSC_battle', {err = 0, type = 0, list = [], score = 0, rank = 0}).
+-record('PCS_email_confirm', {list = []}).
+-record('PSC_email', {typeId = 0, id = 0, time = 0, title = "", str = "", item_list = [], otherId = 0}).
+-record('PSC_system_notice', {err = 0, text = "", type = 0}).
+-record('PSC_skill', {id = 0, typeId = 0, status = 0, lv = 0}).
+-record('PSC_email_list', {list = []}).
 -record('PSC_goal_list', {list = []}).
--record('PCS_sprite_return', {id = 0, dir = 0}).
+-record('PCS_handbook_list', {id = 0}).
 -record('PSC_mon_hourglass', {err = 0, monId = 0, lv = 0, cost = 0}).
 -record('PCS_login', {accname = "", passwd = "", sn = 0, vs = ""}).
 -record('PCS_activity_pay_award', {id = 0}).
--record('PCS_trap_lv_up', {id = 0, reborn = 0}).
--record('PSC_set_mvm_team', {err = 0}).
--record('PSC_select_enemy', {err = 0, map = undefined, eliteList = [], monList = [], trapList = [], boxColor = 0}).
+-record('PCS_suff_detect', {id = 0}).
+-record('PSC_drop', {type = 0, typeId = 0, num = 0}).
+-record('PCS_record', {recordId = 0}).
 -record('PCS_activity_list', {id = 0}).
 -record('PCS_mon_hourglass', {monId = 0, lv = 0}).
--record('PSC_record_mvm', {err = 0, id = 0, attId = 0, defId = 0, time = 0, sec = 0, attTeam = [], defTeam = [], actionList = [], fightSeed = [], normalSeed = [], attAtm = undefined, defAtm = undefined}).
+-record('PSC_record_mvm', {err = 0, id = 0, attId = 0, defId = 0, time = 0, sec = 0, attTeam = [], defTeam = [], actionList = [], fightSeed = [], normalSeed = [], attAtm = undefined, defAtm = undefined, winId = 0, attRankId = 0, defRankId = 0, diffRank = 0, addExp = 0}).
 -record('PCS_gm', {cmd = ""}).
 -record('PCS_record_bornTK', {id = 0, typeId = 0, bornTK = 0}).
--record('PCS_set_mvm_team', {defList = []}).
+-record('PCS_ITEM_POS', {id = 0, bornTK = 0}).
 -record('PSC_new_accname', {accname = "", passwd = ""}).
 -record('PCS_elite_on_map', {eliteId = 0}).
--record('PSC_sprite_walk', {err = 0, id = 0, currTK = 0}).
--record('PCS_sprite_walk', {id = 0, camp = 0, currTK = 0}).
+-record('PCS_battle', {type = 0}).
+-record('PSC_select_enemy', {err = 0, map = undefined, eliteList = [], monList = [], trapList = [], boxColor = 0, vip = 0, hourglass = 0}).
 -record('PCS_sign_up', {accname = "", passwd = ""}).
--record('PSC_war_lose', {type = 0, star = 0, addExp = 0, exp = 0, phy = 0, lv = 0}).
+-record('PSC_battle_item', {id = 0, name = "", lv = 0, hourglass = 0, vip = 0, sex = 0, score = 0, winScore = 0, loseScore = 0, rank = 0}).
 -record('PSC_lv_up', {id = 0, type = 0, lv = 0, exp = 0}).
 -record('PSC_item_sale', {err = 0, typeId = 0, num = 0, gold = 0}).
--record('PSC_suff_detect', {suffList = [], nextTime = 0, endTime = 0}).
+-record('PSC_suff_detect', {status = 0, suffList = [], revengeList = [], beginTime = 0}).
 -record('PCS_trap_to_know', {id = 0}).
 -record('PSC_mon_get_hourglass', {err = 0, id = 0, hgTime = 0}).
 -record('PSC_atm', {id = 0, lv = 0}).
 -record('PCS_skill_button', {id = 0}).
--record('PCS_sprite_fight', {attId = 0, beAttId = 0}).
--record('PCS_mvm_refresh', {id = 0}).
+-record('PCS_pay', {id = 0}).
+-record('PCS_war_end', {warId = 0, tick = 0, type = 0, bornTKList = [], actionList = []}).
 -record('PSC_record_mon', {lv = 0, typeId = 0, id = 0, camp = 0, bornTK = 0}).
 -record('PSC_elite_on_map', {err = 0, eliteId = 0, onMap = 0}).
--record('PCS_mon_pvp', {aimId = 0}).
--record('PSC_hero_pvp', {err = 0, warId = 0, fightSeed = [], normalSeed = [], sec = 0, dropList = []}).
--record('PCS_map_skin', {id = 0}).
--record('PSC_dungeon', {typeId = 0, section = 0, floor = 0, starRecord = []}).
+-record('PSC_set_mvm_team', {err = 0}).
+-record('PCS_set_mvm_team', {defList = []}).
+-record('PSC_mvm_list', {err = 0, id = 0, power = 0, num = 0, ranking = 0, mvmList = []}).
+-record('PSC_dungeon', {typeId = 0, section = 0, floor = 0, starRecord = [], isSaved = 0}).
 -record('PSC_skill_use', {err = 0, skillId = 0}).
--record('PSC_map_skin', {skinList = []}).
+-record('PCS_trap_lv_up', {id = 0, reborn = 0}).
 -record('PCS_sign_list', {id = 0}).
--record('PSC_login', {err = 0, hero = undefined, map = undefined, eliteList = [], monList = [], trapList = [], itemList = [], skinList = [], isDebug = 0, guideStep = "", heroPvpNum = 0, heroPveNum = 0, monPvpNum = 0, suffMonNum = 0}).
--record('PCS_ITEM_POS', {id = 0, bornTK = 0}).
+-record('PSC_login', {err = 0, hero = undefined, map = undefined, eliteList = [], monList = [], trapList = [], itemList = [], skinList = [], dungeonList = [], isDebug = 0, guideStep = "", heroPvpNum = 0, heroPveNum = 0, monPvpNum = 0, suffMonNum = 0, easyBuyList = [], totalPay = 0, suffBeginTime = 0, suffheroLv = 0, eventList = []}).
+-record('PSC_hero_pvp', {err = 0, warId = 0, fightSeed = [], normalSeed = [], sec = 0, dropList = [], defInfo = undefined}).
 -record('PCS_skill_use', {id = 0, skillId = 0}).
 -record('PSC_item_change', {typeId = 0, num = 0, action = 0}).
 -record('PCS_elite_unmount', {id = 0}).
 -record('PSC_skill_button', {err = 0, id = 0, num = 0}).
--record('PSC_elite_relive', {id = 0, hp = 0, status = 0, bornTK = 0}).
+-record('PSC_sign_up', {err = 0}).
 -record('PSC_item_change_list', {list = []}).

@@ -121,12 +121,20 @@
 
 %% db
 %  player_gsv init_data的表
--define(PLAYER_GSV_TAB_LIST, [db_hero, db_map, db_elite, db_mon, 
-                              db_item, db_trap, db_other, 
-                              db_email, db_handbook, db_shop_limit,
-                          db_dungeon, db_goal, db_sign, db_pay, 
-                          db_activity_pay, db_record_index]).
+-define(PLAYER_GSV_TAB_LIST, [
+	db_hero, db_map, db_elite, db_mon, 
+	db_item, db_trap, db_other, 
+	db_email, db_handbook, db_shop_limit,
+	db_dungeon, db_goal, db_sign, db_pay, 
+	db_activity_pay, db_record_index, 
+	db_dungeon_save, db_random_event
+    ]).
 
+-define(DB_RANDOM_EVENT, db_random_event).
+	
+
+%% pve关卡配置存档
+-define(DB_DUNGEON_SAVE, db_dungeon_save).
 %% 账户 id 映射表
 -define(DB_ACCOUNT, db_account).
 -record(db_account, {accname, passwd, id, status = 0, status_time = 0}).
@@ -137,6 +145,10 @@
 -define(ACCOUNT_STATUS_TEMP_BAN, 1).
 % 永久封号
 -define(ACCOUNT_STATUS_BAN, 2).
+
+%% pvp积分表
+-define(DB_PVP_SCORE, db_pvp_score).
+-record(db_pvp_score, {id, name = "", lv = 1, vip = 0, hourglass = 0, sex = 0, score, bucket_id, block_id, is_random, ref}).
 
 
 
@@ -161,7 +173,7 @@
 %% mvm rank
 -define(DB_MVM_RANK, db_mvm_rank).
 %% #db_mvm_rank{rank = 0, id = maxrank}
--record(db_mvm_rank, {rank_id = 1, id = 0, team_id = 1, name = "", sex = 0, lv = 1}).
+-record(db_mvm_rank, {rank_id = 1, id = 0, team_id = 1, name = "", sex = 0, lv = 1, vip = 0, ref}).
 
 
 %% pvp录像表,PSC_reocrd结构
@@ -203,10 +215,13 @@
 -define(DB_TRAP, db_trap).
 
 -record(suff_status, {
+	suff_lv = 1,
+	begin_time = 0,
         curr_time = 0, 
         last_time = 0, 
         suff_list = [],  %% suff_list = mon_list ++ elite_list
         mon_list = [], 
+	revenge_list = [], %% 复仇列表 
         elite_list = [], 
         status = 0
     }).
@@ -229,7 +244,8 @@
         last_sign_time = 0,
         last_rebate_time = 0,
 	mvm_rank_id = 0,
-	mvm_team_id = 0
+	mvm_team_id = 0,
+	easy_buy_list = []
     }).
 
 %% 手册表
@@ -402,12 +418,16 @@
 
 
 -record(war_status, {
-        
         warId,                                  %% 本场战斗的唯一id
         attName = "",                           %% 攻击者的名字pvp专用
         defName = "",                           %% 防守方的名字PVP专用
         attLv = 0,                              %% 进攻方等级PVP专用
         defLv = 0,                              %% 防守方等级pvp专用
+	attSex = 0,
+	defSex = 0,
+	attRankId = 0,
+	defRankId = 0, 
+	diffRank = 0, 
         isWaring = false,                       %% {db_other,1010,40138,12803,0,1399345470,1399345598,undefined,0,0,0,0,0,0}
         warType = 0,                            %% 战斗类型，suff pvp mvm dungeon nowar
         dungeonConfig,                          %% 如果是dungeon的话，当前floor的配置
@@ -416,8 +436,9 @@
         floor = 0,                              %% 如果是dungeon的话，当前挑战的层
         star = 0,                               %% 本场战斗的星级
         foundBox = 0,                           %% 是否找到宝箱
-        foundExit = 0,                          %% 是否找到出口
-        defMonNum = 0,                          %% 防守怪物数量
+        foundExit = 0,                          %% pve是否找到出口pvp是否打碎时间沙漏
+        defMonNum = 0,                          %% 防守怪物数量 死一个减一个
+        constDefMonNum = 0,                     %% 防守怪物数量
         attMonNum = 0,                          %% 进攻怪物数量
         beginTime = 0,                          %% 战斗开始的时间戳
         duration = 0,                           %% 战斗可以持续的时间戳
@@ -436,7 +457,12 @@
         fightSeed,                              %% 战斗种子
         normalSeed,                             %% 普通走路的种子
         record,                                 %% 录像
-	deadAtmId = 0 				%% mvm 存钱罐是否被打破
+	deadAtmId = 0, 				%% mvm 存钱罐是否被打破
+	drawHourglass = 0, 			%% pvp 可以掠夺到的时之沙
+	defPvpScore, 				%% pvp 防守方
+	atmHp = 0, 				%% 存钱罐的血量，英雄挂了的
+	allAtmHp = 0, 				%% 存钱罐的总血量
+	deadAward = [] 				%% 昔拉杀死的怪有奖励
     }).
 
 %% 进入战斗状态前触发的技能特效
@@ -520,6 +546,12 @@
 -define(BOXMON_ID, 3).
 %% dungeon boss id
 -define(DUNGEON_BOSS_ID, 4).
+%% pvp里存钱罐的id
+-define(ATMMON_ID, 5).
+%% 迎击事件怪的id
+-define(TRACKMON_ID, 6).
+%% 营救事件怪物的id
+-define(RESCUEMON_ID, 7).
 %% 进攻方的存钱罐id
 -define(ATT_ATM_ID, 71).
 %% 防守方的存钱罐id
@@ -617,13 +649,13 @@
 -define(MAX_HERO_LV, 100).
 
 %% 地图类型
--define(MAP_SAND, 1001).
--define(MAP_MAYA, 1002).
--define(MAP_PRISON, 1003).
--define(MAP_CANDY, 1004).
--define(MAP_UNIVERSE, 1005).
--define(MAP_SNOW, 1006).
--define(MAP_TYPE_LIST, [?MAP_SAND, ?MAP_MAYA, ?MAP_PRISON, ?MAP_CANDY, ?MAP_UNIVERSE, ?MAP_SNOW]).
+-define(MAP_SNOW, 1001). % 雪地
+-define(MAP_DESERT, 1002). % 戈壁沙漠
+-define(MAP_PRISON, 1003). % 监狱
+-define(MAP_FOREST, 1004). % 树林
+-define(MAP_LAKE, 1005). % 湖泊
+-define(MAP_SAND, 1006).
+-define(MAP_TYPE_LIST, [?MAP_SNOW, ?MAP_DESERT, ?MAP_PRISON, ?MAP_FOREST, ?MAP_LAKE]).
 
 %% 保存录像
 -record(save_fight, {attId = 0, beAttId = 0, hurt = 0}).
@@ -644,6 +676,8 @@
 -define(WAR_ACTION_RESUME, 14).
 -define(WAR_ACTION_RESET_TIME,15).
 -define(WAR_ACTION_ATM_DEAD,16).
+-define(WAR_ACTION_ATM_HP,17).
+-define(WAR_ACTION_DEAD_AWARD,18).
 
 %% war结束的类型
 -define(WAR_END_CHECK, 0).
@@ -668,7 +702,7 @@
 -define(DEF_MON_WAR_ID, 601).
 
 %% 通用起始ID
--define(START_ID, 1000).
+-define(START_ID, 10000).
 
 %% 星级
 -define(HARD_STAR_ZERO, 0).
@@ -761,3 +795,19 @@
 -define(ACTIVITY_REBATE, 6).
 
 
+%% pvp 分数bucket
+-record(score_bucket, {bucket_id = 0, unit_count = 0, block_count = 0, max_block = 0, block_list_1 = [], block_list_2 = []}).
+-record(score_block, {block_id = 0, unit_count = 0, unit_list_1 = [], unit_list_2 = []}).
+
+%% 第一个副本，新手引导用到
+-define(FIRST_DUNGEON, ?MAP_LAKE).
+
+
+-define(ETS_IN_PVP, ets_in_pvp).
+-define(ETS_ONLINE, ets_online).
+-define(ETS_BATTLE_GSV, ets_battle_gsv).
+
+%% 追击事件
+-define(TRACK_EVENT, 1).
+%% 营救事件
+-define(RESCUE_EVENT, 2).

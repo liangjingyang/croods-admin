@@ -7,9 +7,9 @@
 %% effect：使用效果
 -record(c_item, {typeid = 0, name = "", gold = 0, effect = undefined, data = []}).
 -record(c_shop, {vs = 0, beginTime = 0, endTime = 0, list = []}).
--record(c_goal, {id,name,hook,max, award}).
+-record(c_goal, {id,name,hook,max,gold, diamond, itemList}).
 
--record(c_sign, {id, name, award}).
+-record(c_sign, {id, name, gold, diamond, itemList}).
 
 -record(c_pay, {id, name, price, diamond, gift}).
 -record(c_activity_pay, {id,name,pay,award}).
@@ -18,12 +18,12 @@
 -record(c_elite, {typeId = 0, name = 0, lv = 0, hp = 0, hpAdd = 0, att = 0, attAdd = 0, attInterval = 0, attDist = 0, attType = 0, runSpeed = 0, view = 0, patrol = 0, track = 0, skillId = 0, geniusId = 0, wind = 0, wood = 0, fire = 0, hill = 0, attr = 0, finishPart = 0, rebornPart = 0, reborn = 0, drop = []}).
 
 %% 魔神强化的配置文件
--record(c_elite_attr_up,{key,soul,soulAdd,itemList}).
+-record(c_elite_attr_up,{key,soul,gold,itemList}).
 %% 战斗评级宝箱配置记录
 -record(c_war_award, {key, drop}).
 
 %% 副本配置文件record
--record(c_dungeon, {key,name,bossFloor,bossId,hard,dayNight,sectionAward}).
+-record(c_dungeon, {key,name,isBossFloor,bossId,bossLv,monPool,monColor,monLv,monNum,hard,awardGold,awardDiamond}).
 -record(c_dungeon_boss, {typeId,type,actionId,hard,drop}).
 
 % player_gsv State record
@@ -89,11 +89,26 @@
 %-record(c_mon_to_time, {section,color,min,minAdd,max,maxAdd}).
 -record(c_trap_lv, {key, gold = 0, know = 0, itemList = []}).
 -record(c_hero_lv,{lv,phyExp = 0,lvExp = 0}).
--record(c_pve_rule,{key,num,minLv,maxLv,minColor,maxColor,dayNight,dropRate,elite}).
+
 
 -record(c_exp, {lv, exp, totalExp}).
 -record(c_mon_to_soul, {color, soul, hourglass}).
 %-record(c_vip, {vip, pay, hourglass, award}).
--record(c_vip, {lv,pay,detect,buyPhy,sprint,jump,shareRecord,hunterBargain,hunter,roundTime,hourglass,protect,mount,onMap,relive,heart,award}).
+-record(c_vip, {lv,pay,detect,buyPhy,sprint,jump,shareRecord,hunterBargain,hunter,roundTime,atmLv,hourglass,protect,mount,onMap,relive,heart,award}).
 -record(c_map_limit, {section, lv, road, mon}).
 
+%% 快捷购买配置
+-record(c_easy_buy, {type, diamond, value, limit}).
+
+%% pvp 积分配置
+-record(c_pvp_score,{hash,low,high,win,lose,base}).
+
+%% 基础掉落
+-record(c_base_drop, {lv, base_gold, base_soul, base_hourglass}).
+
+%% 迎击战配置
+-record(c_suff, {lv, interval, max,poolId,minLv,maxLv,colorRate,elite}).
+-record(c_suff_pool, {poolId, content}).
+
+%% 功能解锁配置
+-record(c_function_limit, {key, lv, floor}).
